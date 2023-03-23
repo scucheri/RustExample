@@ -487,8 +487,27 @@ fn testResult() {
     use std::io::ErrorKind;
     use std::io::Read;
 
-    let greeting_file_result = File::open("hello.txt");
 
+    test_get_result();
+
+    fn test_get_result() -> Result<String,  Box<dyn Error>>{
+        dbg!(getResult(11)?);
+        dbg!(getResult(2)?);
+        getResult(2)
+    }
+
+    // pub type MyResult<T, E = Error> = std::result::Result<T, E>;
+    fn getResult(input : usize) -> Result<String,  Box<dyn Error>>{
+        if input > 10 {
+            Ok(String::from("getResult success"))
+        }
+        else {
+            Err(format!("{}", "getResult Failed"))?
+        }
+    }
+
+
+    let greeting_file_result = File::open("hello.txt");
     let greeting_file = match greeting_file_result {
         Ok(file) => file,
         Err(error) => match error.kind() {
